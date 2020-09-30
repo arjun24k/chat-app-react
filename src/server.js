@@ -14,11 +14,13 @@ const io = socketio(server);
 const jwt = require("jsonwebtoken");
 
 
-    const publicDirectory = path.join(__dirname,'../chat-app-client/build/index.html');
-    app.use(express.static(publicDirectory));
-    app.get('*',(req,res)=>{
-        res.sendFile(publicDirectory);
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../chatroom-client/build')));
+  
+    app.get('*', function(req, res) {
+      res.sendFile(path.join(__dirname, '../chatroom-client/build', 'index.html'));
     });
+  }
 
 
 app.use(cors());

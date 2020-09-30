@@ -14,7 +14,7 @@ export function* checkSessionInitiate(){
 export function* authenticate({payload:{username,chatroom,url,history}}){
    try {
     const header = yield {'Content-Type':'application/json'};
-    const user = yield fetchData('http://localhost:3000/joinroom',{username,chatroom},header);
+    const user = yield fetchData('/joinroom',{username,chatroom},header);
     yield put(authSuccess(user));
     localStorage.setItem('junChatroomToken',user.token);   
     history.push(`${url}room`);
@@ -26,7 +26,7 @@ export function* authenticate({payload:{username,chatroom,url,history}}){
 export function* checkSession({payload:{bearerHeader}}){
     try {
         const header = yield bearerHeader;
-        const user = yield fetchData('http://localhost:3000/chatroomSession',{},header);
+        const user = yield fetchData('/chatroomSession',{},header);
         yield put(checkSessionSuccess(user));
     } catch (error) {
         yield put(checkSessionFaliure(error));
