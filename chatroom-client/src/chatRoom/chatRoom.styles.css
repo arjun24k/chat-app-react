@@ -1,0 +1,12 @@
+#message-io{
+    height: 100%;
+    width: 70vw;
+    background-color: blueviolet;
+    display:flex;
+    flex-direction: column-reverse;
+}
+
+#chat-room-layout{
+  display: flex;
+  flex-direction: row;
+}

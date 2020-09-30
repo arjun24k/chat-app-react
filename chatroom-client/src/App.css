@@ -1,0 +1,37 @@
+#chatUi{
+  height: 100%;
+  width: 100%;
+  background-color: rgb(31, 32, 46);
+  display:flex;
+  flex-direction: row-reverse;
+}
+
+/* #message-io{
+  height: 100vh;
+  width: 70vw;
+  background-color: blueviolet;
+  display:flex;
+  flex-direction: column-reverse;
+} */
+
+
+/* .App {
+  width:100vw;
+  height:100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#buttons{
+  width: 15%;
+  display: flex;
+  margin: 1%;
+  justify-content: space-around;
+  justify-items: center;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+ */

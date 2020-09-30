@@ -1,0 +1,25 @@
+{
+  "name": "y",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "heroku-postbuild": "cd chatroom-client && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "start": "node src/server.js",
+    "dev": "env-cmd -f ./config/dev.env nodemon src/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd chatroom-client && npm run build",
+    "client": "cd chatroom-client && npm start",
+    "server": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "env-cmd": "^10.1.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.1",
+    "socket.io": "^2.3.0"
+  }
+}

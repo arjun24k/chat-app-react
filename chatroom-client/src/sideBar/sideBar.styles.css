@@ -1,0 +1,43 @@
+#sidebar{
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    background-color: rgba(8, 64, 102, 0.932);
+    align-items: center;
+}
+
+#chat-room-header{
+    width: 100%;
+    text-align: center;
+    color: rgb(223, 222, 222);
+    font-size: small;
+    background-color: rgb(20, 14, 46);
+}
+
+#participants-heading{
+    height:10%;
+    width: 100%;
+    text-align: center;
+    padding-top: 3%;
+    background-color: rgb(4, 76, 143);
+    color: rgb(206, 203, 203);
+}
+
+#participant-names{
+    width: 100%;
+}
+
+#leave-chatroom-button{
+    margin-top:8px;
+    height: 10%;
+    width: 90%;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 100px;
+    font-family: inherit;
+    color:rgb(223, 217, 217);
+    background-color: rgb(19, 19, 56);
+}
+/* #chat-room-header hr{
+   width: 90%;
+} */

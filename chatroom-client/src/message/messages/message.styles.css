@@ -1,0 +1,30 @@
+.message-bubble-container{
+    display: flex;
+    height: auto;
+    width: 100%;
+    flex-direction: column;
+}
+
+.message-bubble{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1%;
+    margin-top: 1%;
+    padding: 2%;
+    width: fit-content;
+    word-wrap: break-word;
+    color: rgb(226, 224, 224);
+    font-weight: 100;
+    background-color: rgb(13, 13, 54);
+    padding-left: 3%;
+    padding-right: 3%;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+
+.sender-name{
+    flex-basis: 40%;
+    font-size:70%;
+    margin-bottom: 3%;
+}
