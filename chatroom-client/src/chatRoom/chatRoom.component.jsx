@@ -21,7 +21,7 @@ class ChatRoom extends React.Component{
             this.props.checkSession({bearerHeader});
         };
         if(!this.props.socket)
-        this.props.initSocket(SocketIOClient('http://localhost:5000'));
+        this.props.initSocket(SocketIOClient('/'));
     }
 
     render(){
