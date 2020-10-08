@@ -24,7 +24,7 @@ class ChatRoom extends React.Component{
             }
         };
         if(!this.props.socket)
-        this.props.initSocket(SocketIOClient(getLocalHost()));
+        this.props.initSocket(SocketIOClient(getLocalHost(),{transports: ['websocket'], upgrade: false}));
     }
 
     render(){
