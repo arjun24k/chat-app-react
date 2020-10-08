@@ -33,7 +33,10 @@ const Message = ({props}) =>{
                 :<div className="sender-name" style={senderColorStyles}>
                     {props.sender}
                 </div>}
-                {props.message}
+                {props.isLink
+                ?<a  target={'_blank'} rel="noopener noreferrer" style={{"color":"rgb(226, 224, 224)"}} href={`${props.message}`}>Tap to view my location</a>
+                :props.message
+                }
             </div>
         </div>
     )

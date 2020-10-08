@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { initSocket } from '../redux/joinRoom/joinRoom.actions';
 import { authStart } from '../redux/auth/auth.actions';
 import { withRouter } from 'react-router-dom';
+import { loadStart, loadStop } from '../redux/loading/loading.actions';
+import Spinner from '../spinner/spinner.component';
 
 
 class JoinRoom extends React.Component{
@@ -38,20 +40,23 @@ class JoinRoom extends React.Component{
         var username,chatroom='';
         const url = this.props.match.url;
         const history = this.props.history;
-        console.log(this.props.match);
         return(
-            <div id="join-room-area">
-                <form id="join-room-form">
-                    <label>Name</label>
-                    <input onChange={(e)=>username=e.target.value} className="input-participant-details" type="text" />
-                    <label>Chat Room</label>
-                    <input onChange={(e)=>chatroom=e.target.value} className="input-participant-details" type="text"/>
-                    <button id="chat-submit-button" onClick={(e) => {
-                        e.preventDefault();
-                        this.props.authInit({username,chatroom,url,history});
-                    }}>Submit</button>
-                </form>
+            !this.props.isLoading
+            ?<div id="join-room-area">
+            <form id="join-room-form">
+                <label>Name</label>
+                <input onChange={(e)=>username=e.target.value} className="input-participant-details" type="text" />
+                <label>Chat Room</label>
+                <input onChange={(e)=>chatroom=e.target.value} className="input-participant-details" type="text"/>
+                <button id="chat-submit-button" onClick={(e) => {
+                    e.preventDefault();
+                    this.props.loadStart(true);
+                    this.props.authInit({username,chatroom,url,history});
+                    this.props.loadStop(false);
+                }}>Submit</button>
+            </form>
             </div>
+            :<Spinner/>
         )
     }
 }
@@ -59,11 +64,14 @@ class JoinRoom extends React.Component{
 const mapStateToProps = (state) => ({
     socket:state.getSocketObj.socket,
     user:state.authStart.user,
+    isLoading:state.loadingState.isLoading
 });
 
 const mapDispatchToProps = (dispatch) =>({
     initSocket:(socket) => dispatch(initSocket(socket)),
-    authInit:(userInput) => dispatch(authStart(userInput))
+    authInit:(userInput) => dispatch(authStart(userInput)),
+    loadStart:(value) => dispatch(loadStart(value)),
+    loadStop:(value) => dispatch(loadStop(value))
 });
 
 export default withRouter(connect(mapStateToProps,mapDispatchToProps)(JoinRoom));

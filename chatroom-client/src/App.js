@@ -13,11 +13,15 @@ import { checkSessionStart } from './redux/auth/auth.actions';
 
 class App extends React.Component {
 
+
+
   componentDidMount(){
     if(!this.props.user){
       const token = localStorage.getItem('junChatroomToken');
-      const bearerHeader = {'authorization':`Bearer ${token}`};
-      this.props.checkSession({bearerHeader});
+      if(token){
+        const bearerHeader = {'authorization':`Bearer ${token}`};
+        this.props.checkSession({bearerHeader});
+      }
     }
   }
 
@@ -34,11 +38,13 @@ class App extends React.Component {
   }
 }
 const mapStateToProps = (state) =>({
-  user:state.authStart.user
+  user:state.authStart.user,
+  leftRoom:state.authStart.leftRoom
 });
 
 const mapDispatchToProps = (dispatch) =>({
   checkSession: (bearerHeader) => dispatch(checkSessionStart(bearerHeader))
 });
+
 
 export default connect(mapStateToProps,mapDispatchToProps)(App);

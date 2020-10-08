@@ -15,6 +15,21 @@ export const authFaliure = (error) => ({
     payload:error
 });
 
+export const deleteUserStart = (userDetails) => ({
+    type:auth_types.DELETE_START,
+    payload:userDetails
+});
+
+export const deleteUserSuccess = (message)=>({
+    type:auth_types.DELETE_SUCCESS,
+    payload:message
+});
+
+export const deleteUserFaliure = (error) => ({
+    type:auth_types.DELETE_FALIURE,
+    payload:error
+});
+
 export const checkSessionStart = (bearer) =>({
     type:auth_types.CHECK_SESSION_START,
     payload:bearer
@@ -28,4 +43,9 @@ export const checkSessionSuccess = (user) =>({
 export const checkSessionFaliure = (error) =>({
     type:auth_types.CHECK_SESSION_FALIURE,
     payload:error
+});
+
+export const clearUser = () => ({
+    type:auth_types.CLEAR_USER,
+    payload:null
 });

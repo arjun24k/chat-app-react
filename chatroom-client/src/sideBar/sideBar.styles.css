@@ -2,8 +2,24 @@
     display: flex;
     flex-direction: column;
     width: 30vw;
-    background-color: rgba(8, 64, 102, 0.932);
+    height: 92vh;
+    background-color: rgba(229, 224, 231, 0.932);
     align-items: center;
+    justify-content: flex-start;
+    transition: left 0.6s;
+    left: -30vw;
+    position: fixed;
+    top: 0;   
+    background-color: black;
+    /* background-image: linear-gradient(to right,rgb(7, 1, 20)  , rgb(8, 73, 110)); */
+}
+
+
+@media only screen and (max-width: 1000px) {
+    #sidebar{
+        width:50vw;
+        left:-50vw;
+    }
 }
 
 #chat-room-header{
@@ -11,33 +27,75 @@
     text-align: center;
     color: rgb(223, 222, 222);
     font-size: small;
-    background-color: rgb(20, 14, 46);
+   /*  background-image: linear-gradient(to left,rgb(7, 1, 20)  , rgb(8, 73, 110)); */
+    background-color:rgb(17, 17, 17);
 }
 
 #participants-heading{
-    height:10%;
+    height:30px;
     width: 100%;
     text-align: center;
-    padding-top: 3%;
-    background-color: rgb(4, 76, 143);
+    padding-top: 1%;
+    padding-bottom: 1%;
+    background-color: rgb(0, 0, 0);
     color: rgb(206, 203, 203);
+    /* background-image: linear-gradient(to right,rgb(7, 1, 20)  , rgb(8, 73, 110)); */
 }
 
 #participant-names{
     width: 100%;
+    height: auto;
+    max-height: 50vh;
+    overflow-y: scroll;
+    overscroll-behavior: contain;
 }
 
-#leave-chatroom-button{
-    margin-top:8px;
-    height: 10%;
+
+::-webkit-scrollbar {
+    width: 0.2vw;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: maroon; 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #b30000; 
+  }
+
+
+  @media only screen and (max-height:5in) and (orientation:landscape){
+    #participant-names{
+        max-height: 30vh;
+    }
+   }
+
+.bottom-chatroom-button{
+    margin-top:10px;
+    height: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     width: 90%;
     border-radius: 10px;
     border: none;
     box-shadow: 100px;
     font-family: inherit;
-    color:rgb(223, 217, 217);
-    background-color: rgb(19, 19, 56);
+    color:/* black; */rgb(223, 217, 217);
+    background-color: rgb(104, 106, 107);
 }
+.bottom-chatroom-button:focus{
+    outline: none;
+}
+
 /* #chat-room-header hr{
    width: 90%;
 } */

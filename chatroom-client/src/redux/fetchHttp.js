@@ -1,13 +1,10 @@
-export const fetchData = async (addressHttp,{username,chatroom},headers) =>{
-    const user = await fetch(addressHttp,{
-        method:'post',
+export const fetchData = async (addressHttp,dataToSend,headers,method) =>{
+    const data = await fetch(addressHttp,{
+        method,
         headers,
-        body:JSON.stringify({
-            username,
-            chatroom
-        })
+        body:JSON.stringify(dataToSend)
     }); 
-    if(user.status >200)
+    if(data.status >200)
         throw new Error('Error 404');
-    return user.json();
+    return data.json();
 }

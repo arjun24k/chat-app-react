@@ -15,3 +15,8 @@ export const setOldChats = chatlist => ({
     payload:chatlist
 });
 
+export const toggleDrawer = () =>({
+    type:chatFieldTypes.TOGGLE_DRAWER,
+    payload:null
+})
+

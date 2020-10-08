@@ -38,16 +38,17 @@ const joinRoom = async (socket,io,user,callback) =>{
             callback();
         });
     
-        socket.on('locationHandle',(location,callback)=>{
-            io.emit('locationHandleReceive',`https://google.com/maps?q=${location.latitude},${location.longitude}`);
+        socket.on('locationHandle',(message,callback)=>{
+            io.emit('locationHandleReceive',message);
+            chatroomDoc[0].chats.push(message);
+            chatroomDoc[0].save();
+            callback();
         });
     
         socket.on('disconnect', () => {
             console.log('gone');
-            io.to(chatroom).emit('someoneLeft',{
-                room:chatroom,
-                users:userList
-            });
+            io.to(chatroom).emit('someoneLeft',{'message':`${username} has left the chatroom!`,'sender':false});
+            socket.disconnect();  
         })
 
         callback();

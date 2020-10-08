@@ -57,7 +57,12 @@ app.post('/chatroomSession',async (req,res)=>{
 
 app.post('/joinroom',async (req,res)=>{
     console.log(req.body);
-    const user = new User(req.body);
+    var user;
+    const existingUser = await User.findOne(req.body);
+    if(existingUser)
+        user = existingUser;
+    else
+        user = new User(req.body);
     try {
         await user.save();
         const token = await user.generateAuthToken();
@@ -66,5 +71,19 @@ app.post('/joinroom',async (req,res)=>{
         res.status(400).send(error);
     }
 });
+
+app.delete('/deleteUser',async (req,res)=>{
+    try {
+        const user = await User.findOne(req.body);
+    if(user){
+        user.deleteOne(req.body);
+    }
+    res.status(200).send({
+        message:"Left room"
+    });
+    } catch (error) {
+        res.status(400).send(error);
+    }
+})
 
 

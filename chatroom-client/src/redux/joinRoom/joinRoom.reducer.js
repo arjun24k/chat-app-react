@@ -10,7 +10,12 @@ export const joinRoomReducer = (state=INIT_VALUE,action) =>{
             return {
                 ...state,
                 socket:action.payload
-            }    
+            };
+        case joinRoom_types.SOCKET_CLOSE:
+            return{
+                ...state,
+                socket:undefined
+            };
         default:
             return {
                 ...state

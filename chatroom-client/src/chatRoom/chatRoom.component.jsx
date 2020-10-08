@@ -7,48 +7,51 @@ import { connect } from 'react-redux';
 import { initSocket } from '../redux/joinRoom/joinRoom.actions';
 import  SocketIOClient  from 'socket.io-client';
 import { checkSessionStart } from '../redux/auth/auth.actions';
+import {getLocalHost} from '../getLocalHost';
+import Spinner from '../spinner/spinner.component';
+
 
 class ChatRoom extends React.Component{
 
     componentDidMount(){
-        console.log('hey');
         if(!this.props.user){
             const token = localStorage.getItem('junChatroomToken');
-            console.log(token);
             if(!token)
-            this.props.history.goBack();
-            const bearerHeader = {'authorization':`Bearer ${token}`};
-            this.props.checkSession({bearerHeader});
+                this.props.history.goBack();
+            else{
+                const bearerHeader = {'authorization':`Bearer ${token}`};
+                this.props.checkSession({bearerHeader});
+            }
         };
         if(!this.props.socket)
-        this.props.initSocket(SocketIOClient('/'));
+        this.props.initSocket(SocketIOClient(getLocalHost()));
     }
 
     render(){
-        console.log(this.props.socket,this.props.user);
+        var socket = this.props.socket;
+        var user = this.props.user;
         return(
-            this.props.socket
-            ?this.props.user!==undefined
-            ?<div id="chat-room-layout">
-            <SideBar history={this.props.history}/>
-            <div id="message-io">
+            
+            <div>
+                {socket
+            ?user!==undefined
+            ?<div id="message-io">
+            <div>
+            <SideBar history={this.props.history}/> </div>
                 <InputArea/>
                 <ChatArea/>
-            </div> 
             </div>
-            :<div>
-            Loading...
-             </div>
-            :<div>
-            Loading...
-             </div>
+            :<Spinner/>
+            :<Spinner/>}
+            </div>
+           
         )
     }
 }
 
 const mapStateToProps = (state) => ({
     socket:state.getSocketObj.socket,
-    user:state.authStart.user
+    user:state.authStart.user,
 });
 
 const mapDispatchToProps = (dispatch) =>({
@@ -57,3 +60,19 @@ const mapDispatchToProps = (dispatch) =>({
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(ChatRoom);
+
+/* 
+return(
+            <div id='chat-room-layout'>
+                <SideBar history={this.props.history}/>
+            {socket
+            ?user!==undefined
+            ?<div id="message-io">
+                <InputArea/>
+                <ChatArea/>
+            </div>
+            :<Spinner/>
+            :<Spinner/>}
+            </div>
+        )
+*/

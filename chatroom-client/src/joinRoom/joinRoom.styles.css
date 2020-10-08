@@ -12,6 +12,7 @@
 }
 
 #join-room-form{
+    font-size: large;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -26,9 +27,19 @@
 #chat-submit-button{
     width: fit-content;
     height: fit-content;
-    padding: 2%;
+    padding: 4%;
     font-family: inherit;
+    font-size: large;
     border: none;
     border-radius: 5% / 10%;
     background-color: rgb(196, 189, 189);
 }
+#chat-submit-button:focus{
+  outline: none;
+}
+@media only screen and (max-height:4in)and (orientation:landscape){
+  #chat-submit-button,#join-room-form{
+    font-size: small;
+  }
+}
+
