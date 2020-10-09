@@ -79,7 +79,7 @@ app.delete('/deleteUser',async (req,res)=>{
         user.deleteOne(req.body);
     }
     res.status(200).send({
-        message:"Left room"
+        message:req.body.username+"Left room"
     });
     } catch (error) {
         res.status(400).send(error);

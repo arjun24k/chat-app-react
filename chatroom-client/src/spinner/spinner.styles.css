@@ -1,14 +1,24 @@
+#spinner-wrapper{
+  width: 100vw;
+  height: 100vh;
+  background-color: #021a2b;
+}
 .spinner {
-    margin-top:40vh;
+    /* margin-top:40vh;
     margin-right:45vw;
-    margin-bottom: 40vh;
-    border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #3498db; /* Blue */
+    margin-bottom: 40vh; */
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #3498db; /* Blue */
     border-radius: 50%;
-    width: 120px;
-    height: 120px;
+    width: 25vw;
+    height: 25vw;
     animation: spin 2s linear infinite;
+    position: absolute;
+    top:40vh;
+    right:37.5vw;
   }
+
+
   
   @keyframes spin {
     0% { transform: rotate(0deg); }

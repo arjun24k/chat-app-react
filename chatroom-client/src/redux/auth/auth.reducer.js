@@ -25,7 +25,6 @@ export const authReducer = (state=INITIAL_USER_DATA,action) =>{
             return{
                 ...state,
                 user:action.payload,
-                
                 };
         case auth_types.CHECK_SESSION_SUCCESS:
             return {

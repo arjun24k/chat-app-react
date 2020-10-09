@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import './chatRoom.styles.css';
 import InputArea from '../inputArea/inputArea.component';
 import ChatArea from '../chatArea/chatArea.component';
@@ -33,14 +33,17 @@ class ChatRoom extends React.Component{
         return(
             
             <div>
-                {socket
+            {socket
             ?user!==undefined
-            ?<div id="message-io">
+            ?<Suspense fallback={Spinner}>
+                <div id="message-io">
             <div>
-            <SideBar history={this.props.history}/> </div>
+            <SideBar history={this.props.history}/>
+             </div>
                 <InputArea/>
                 <ChatArea/>
             </div>
+            </Suspense>
             :<Spinner/>
             :<Spinner/>}
             </div>
@@ -52,11 +55,12 @@ class ChatRoom extends React.Component{
 const mapStateToProps = (state) => ({
     socket:state.getSocketObj.socket,
     user:state.authStart.user,
+    isLoading:state.loadingState.isLoading
 });
 
 const mapDispatchToProps = (dispatch) =>({
     initSocket:(socket)=>dispatch(initSocket(socket)),
-    checkSession:(bearerHeader) => dispatch(checkSessionStart(bearerHeader))
+    checkSession:(bearerHeader) => dispatch(checkSessionStart(bearerHeader)),
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(ChatRoom);

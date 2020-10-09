@@ -2,7 +2,9 @@ import React from 'react';
 import './spinner.styles.css';
 
 const Spinner = () => (
-    <div className='spinner'>
+    <div id="spinner-wrapper">
+        <div className='spinner'>
+    </div>
     </div>
 );
 

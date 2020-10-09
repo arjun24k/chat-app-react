@@ -6,6 +6,7 @@ import mapLocation from '../icons/map-location.svg';
 import send from '../icons/send.svg';
 import { setParticipants } from '../redux/participants/participants.actions';
 import drawers from '../icons/drawers.svg'
+import { loadStop } from '../redux/loading/loading.actions';
 
 /* var iconStyles; */
 
@@ -19,13 +20,6 @@ class InputArea extends React.Component {
   }
   
   componentDidMount(){
-    /* var inputArea = document.getElementById('input-area');
-    iconStyles = {
-      width:inputArea?inputArea.offsetWidth*0.065:"35px",
-      height:inputArea?inputArea.offsetWidth*0.065:"35px",
-      maxWidth:inputArea?inputArea.offsetHeight*80:0,
-      maxHeight:inputArea?inputArea.offsetHeight*80:0
-    } */
     const socket = this.props.socket;
     var objDiv = document.getElementById("message-io");
     var chatArea = document.getElementById("chat-area");
@@ -46,7 +40,10 @@ class InputArea extends React.Component {
       }
       socket.emit('join',{user},(error)=>console.log(error?error:'Joined successfully'));
       socket.on('chats',(chatList)=>this.scrollHandler(objDiv,this.props.setOldMsgs,chatList.chats));
-      socket.on('welcomeMessage',(msg)=>this.scrollHandler(objDiv,this.props.setEntryMessage,msg));
+      socket.on('welcomeMessage',(msg)=>{
+        this.scrollHandler(objDiv,this.props.setEntryMessage,msg);
+        this.props.loadStop(false);
+      });
       socket.on('newUserJoined',(msg)=>this.scrollHandler(objDiv,this.props.setEntryMessage,msg));
       socket.on('roomData',(obj)=>this.props.setParticipants(obj.users));
       socket.on('message',(msg)=>this.scrollHandler(objDiv,this.props.setMessage,msg));
@@ -56,7 +53,8 @@ class InputArea extends React.Component {
   }
 
   scrollHandler(objDiv,callback,msg){
-    if(window.scrollY+window.innerHeight===objDiv.offsetHeight){
+    var drawers = document.getElementById('input-area');
+    if(window.pageYOffset+window.innerHeight+7*drawers.offsetHeight>=objDiv.offsetHeight){
       callback(msg);
       //window.scrollTo(0,objDiv.scrollHeight);
       window.scroll({
@@ -84,16 +82,17 @@ class InputArea extends React.Component {
         msg_id:(Math.random()*Math.random()).toString()
       },(error)=>{
         if(error){
+          alert(`${error}`)
           return console.log(error)
         }
-        console.log('location shared');
+        console.log('location shared');console.log();
       }
     ));
   }
 
   sendMessage(message,socket){
     if(message){
-      this.setState({fieldValue:''});
+    document.getElementById('input-msg-field').value = "";
     const sender = this.props.userInput.username;
     const isLink=false;
     const msg_id=(Math.random()*Math.random()).toString();
@@ -111,13 +110,14 @@ class InputArea extends React.Component {
   
   render(){
     const socket= this.props.socket;
+    var msg='';
     return (
       <div id="input-area">
         <div id="drawers-icon" onClick={()=>this.props.toggleDrawer()}>
                 <img id="blah"  src={drawers} alt="-|-"></img>
         </div>
-        <input onKeyUp={(e)=>e.key === 'Enter'?this.sendMessage(this.state.fieldValue,socket):undefined} value={this.state.fieldValue}  onChange={(event)=>this.setState({fieldValue:event.target.value})} id="input-msg-field" placeholder="Message"/>
-        <div  id="send-button" onClick={()=>this.sendMessage(this.state.fieldValue,socket)} >
+        <input onKeyUp={(e)=>e.key === 'Enter'?this.sendMessage(msg,socket):undefined}  onChange={(event)=>msg=event.target.value} id="input-msg-field" placeholder="Message"/>
+        <div  id="send-button" onClick={()=>this.sendMessage(msg,socket)} >
             <img id="send-icon" src={send} alt="loc"></img>
         </div>
         <div  id="location-button" onClick={()=>this.sendLocation(socket)}>
@@ -132,7 +132,7 @@ const mapStateToProps = (state) => ({
   messageList:state.chat.chatMessages,
   socket:state.getSocketObj.socket,
   userInput:state.authStart.userInput,
-  showDrawer:state.chat.showDrawer
+  showDrawer:state.chat.showDrawer,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -140,7 +140,8 @@ const mapDispatchToProps = dispatch => ({
   setParticipants:participants =>dispatch(setParticipants(participants)),
   setEntryMessage:msg =>dispatch(setEntryMessage(msg)),
   setOldMsgs:msgList =>dispatch(setOldChats(msgList)),
-  toggleDrawer:()=>dispatch(toggleDrawer())
+  toggleDrawer:()=>dispatch(toggleDrawer()),
+  loadStop:(value) => dispatch(loadStop(value))
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(InputArea);

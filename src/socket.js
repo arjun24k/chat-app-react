@@ -14,8 +14,8 @@ const openSocket =async  (io) =>{
 };
 
 const joinRoom = async (socket,io,user,callback) =>{
-    const chatroom = user.chatroom;
-    const username = user.username;
+    var chatroom = user.chatroom;
+    var username = user.username;
     try {
         const userList = await getUsersInChatroom(username,chatroom);
         const chatroomDoc = await Chatroom.find({'roomName':chatroom});
@@ -62,11 +62,15 @@ const getUsersInChatroom = async (username,chatroom) => {
     console.log(users);
     const userList = users.map(user =>user.username);
     if(users.length===1){
-        const chatroomDoc = new Chatroom({
-            'roomName':chatroom
-        });
-        await chatroomDoc.save();
-        return [username];
+        try {
+            const chatroomDoc = new Chatroom({
+                'roomName':chatroom
+            });
+            await chatroomDoc.save();
+            return [username];
+        } catch (error) {
+            return userList
+        }
     }
     return userList;
 }

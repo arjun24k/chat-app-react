@@ -40,6 +40,7 @@ class JoinRoom extends React.Component{
         var username,chatroom='';
         const url = this.props.match.url;
         const history = this.props.history;
+        console.log(this.props.isLoading);
         return(
             !this.props.isLoading
             ?<div id="join-room-area">
@@ -52,7 +53,6 @@ class JoinRoom extends React.Component{
                     e.preventDefault();
                     this.props.loadStart(true);
                     this.props.authInit({username,chatroom,url,history});
-                    this.props.loadStop(false);
                 }}>Submit</button>
             </form>
             </div>
