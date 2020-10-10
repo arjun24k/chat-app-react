@@ -12,7 +12,7 @@ app.use(express.json());
 const server = http.createServer(app);
 const io = socketio(server);
 const jwt = require("jsonwebtoken");
-
+const compression = require('compression');
 
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../chatroom-client/build')));
@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'production') {
     });
   }
 
-
+app.use(compression());
 app.use(cors());
 initDb();
 

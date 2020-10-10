@@ -7,6 +7,9 @@ import send from '../icons/send.svg';
 import { setParticipants } from '../redux/participants/participants.actions';
 import drawers from '../icons/drawers.svg'
 import { loadStop } from '../redux/loading/loading.actions';
+import { initSocket } from '../redux/joinRoom/joinRoom.actions';
+import { getLocalHost } from '../getLocalHost';
+import  SocketIOClient  from 'socket.io-client';
 
 /* var iconStyles; */
 
@@ -49,6 +52,11 @@ class InputArea extends React.Component {
       socket.on('message',(msg)=>this.scrollHandler(objDiv,this.props.setMessage,msg));
       socket.on('locationHandleReceive',(link)=>this.scrollHandler(objDiv,this.props.setMessage,link));
       socket.on('someoneLeft',(msg)=>this.scrollHandler(objDiv,this.props.setEntryMessage,msg));
+      socket.on('disconnect',()=>{
+        if(this.props.user || this.props.bearer){
+          this.props.initSocket(SocketIOClient(getLocalHost(),{transports: ['websocket'], upgrade: false}));
+        }
+      });
      }
   }
 
@@ -133,6 +141,8 @@ const mapStateToProps = (state) => ({
   socket:state.getSocketObj.socket,
   userInput:state.authStart.userInput,
   showDrawer:state.chat.showDrawer,
+  user:state.authStart.user,
+  bearer:state.authStart.bearer
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -141,7 +151,8 @@ const mapDispatchToProps = dispatch => ({
   setEntryMessage:msg =>dispatch(setEntryMessage(msg)),
   setOldMsgs:msgList =>dispatch(setOldChats(msgList)),
   toggleDrawer:()=>dispatch(toggleDrawer()),
-  loadStop:(value) => dispatch(loadStop(value))
+  loadStop:(value) => dispatch(loadStop(value)),
+  initSocket:(socket)=>dispatch(initSocket(socket)),
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(InputArea);

@@ -3,10 +3,11 @@ import { connect } from 'react-redux';
 import Message from '../message/messages/message.component';
 import './chatArea.styles.css';
 import EntryMessage from '../message/entryMessage/entryMessage.component';
+import Spinner from '../spinner/spinner.component';
 
 const ChatArea = ({messageList,userInput}) =>{
     return(
-        <div id="chat-area">
+        messageList?<div id="chat-area">
                {  messageList.map(messageObj=>{
                     const message= messageObj.message;
                     const msg_id=messageObj.msg_id;
@@ -23,7 +24,7 @@ const ChatArea = ({messageList,userInput}) =>{
                     //return message?isEntryMessage?<EntryMessage key={`msgSndr${message}n${i++}`} props={{message}}/>:<Message key={`msg${message}n${i++}`} props={{message,isUser,sender}}/>:undefined
                 }) 
                 }
-        </div>
+        </div>:<Spinner/>
     );
 }
 

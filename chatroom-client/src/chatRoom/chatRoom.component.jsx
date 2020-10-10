@@ -9,6 +9,7 @@ import  SocketIOClient  from 'socket.io-client';
 import { checkSessionStart } from '../redux/auth/auth.actions';
 import {getLocalHost} from '../getLocalHost';
 import Spinner from '../spinner/spinner.component';
+import ErrorBoundary from '../errorBoundaries/errorBound.component';
 
 
 class ChatRoom extends React.Component{
@@ -23,9 +24,10 @@ class ChatRoom extends React.Component{
                 this.props.checkSession({bearerHeader});
             }
         };
-        if(!this.props.socket)
+        if(!this.props.socket);
         this.props.initSocket(SocketIOClient(getLocalHost(),{transports: ['websocket'], upgrade: false}));
     }
+
 
     render(){
         var socket = this.props.socket;
@@ -35,7 +37,8 @@ class ChatRoom extends React.Component{
             <div>
             {socket
             ?user!==undefined
-            ?<Suspense fallback={Spinner}>
+            ?<ErrorBoundary histroy={this.props.history}>
+                <Suspense fallback={<Spinner/>}>
                 <div id="message-io">
             <div>
             <SideBar history={this.props.history}/>
@@ -44,6 +47,7 @@ class ChatRoom extends React.Component{
                 <ChatArea/>
             </div>
             </Suspense>
+            </ErrorBoundary>
             :<Spinner/>
             :<Spinner/>}
             </div>

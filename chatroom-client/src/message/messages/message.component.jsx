@@ -43,9 +43,9 @@ const Message = ({props}) =>{
 }
 
 const decipherColor = (length)=>{
-    if (length<6) 
+    if (length<4) 
         return '#09ac48';
-    else if(length<8)
+    else if(length<7)
         return '#d10909';
     else if(length < 10)
         return '#e0af29';
@@ -53,4 +53,4 @@ const decipherColor = (length)=>{
         return '#af79f7';            
 }
 
-export default Message;
+export default React.memo(Message);

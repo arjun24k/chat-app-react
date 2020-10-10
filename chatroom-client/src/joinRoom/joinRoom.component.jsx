@@ -6,6 +6,7 @@ import { authStart } from '../redux/auth/auth.actions';
 import { withRouter } from 'react-router-dom';
 import { loadStart, loadStop } from '../redux/loading/loading.actions';
 import Spinner from '../spinner/spinner.component';
+import ErrorBoundary from '../errorBoundaries/errorBound.component';
 
 
 class JoinRoom extends React.Component{
@@ -43,7 +44,8 @@ class JoinRoom extends React.Component{
         console.log(this.props.isLoading);
         return(
             !this.props.isLoading
-            ?<div id="join-room-area">
+            ?<ErrorBoundary history={undefined}>
+            <div id="join-room-area">
             <form id="join-room-form">
                 <label>Name</label>
                 <input onChange={(e)=>username=e.target.value} className="input-participant-details" type="text" />
@@ -56,6 +58,7 @@ class JoinRoom extends React.Component{
                 }}>Submit</button>
             </form>
             </div>
+            </ErrorBoundary>
             :<Spinner/>
         )
     }

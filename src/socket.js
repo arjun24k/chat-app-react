@@ -47,9 +47,11 @@ const joinRoom = async (socket,io,user,callback) =>{
     
         socket.on('disconnect', () => {
             console.log('gone');
-            io.to(chatroom).emit('someoneLeft',{'message':`${username} has left the chatroom!`,'sender':false});
-            socket.disconnect();  
-        })
+            
+                io.to(chatroom).emit('someoneLeft',{'message':`${username} has left the chatroom!`,'sender':false});
+                socket.disconnect();  
+            
+        });
 
         callback();
     } catch (error) {
