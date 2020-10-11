@@ -115,7 +115,19 @@ class InputArea extends React.Component {
     var width = x.offsetWidth;
     setTimeout(()=>x.style.display = "flex"?x.style.display = "none":x.style.display = "flex", 650);;
   } */
-  
+  detectMobile(){
+    if (navigator.userAgent.match(/Android/i) 
+                || navigator.userAgent.match(/webOS/i) 
+                || navigator.userAgent.match(/iPhone/i)  
+                || navigator.userAgent.match(/iPad/i)  
+                || navigator.userAgent.match(/iPod/i) 
+                || navigator.userAgent.match(/BlackBerry/i) 
+                || navigator.userAgent.match(/Windows Phone/i)) { 
+                return true; 
+            } else { 
+                return false; 
+            } 
+  }
   render(){
     const socket= this.props.socket;
     var msg='';
@@ -128,9 +140,11 @@ class InputArea extends React.Component {
         <div  id="send-button" onClick={()=>this.sendMessage(msg,socket)} >
             <img id="send-icon" src={send} alt="loc"></img>
         </div>
-        <div  id="location-button" onClick={()=>this.sendLocation(socket)}>
-            <img id="location-icon" src={mapLocation} alt="loc"></img>
-        </div>
+        {
+          !this.detectMobile()?<div  id="location-button" onClick={()=>this.sendLocation(socket)}>
+          <img id="location-icon" src={mapLocation} alt="loc"></img>
+          </div>:undefined
+        }
       </div>)
   }
 }
