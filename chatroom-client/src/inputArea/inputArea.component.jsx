@@ -17,8 +17,8 @@ class InputArea extends React.Component {
 
   constructor(props){
     super(props);
-    this.state={
-      fieldValue:''
+    this.state = {
+      locationPermissions:false
     }
   }
   
@@ -55,9 +55,11 @@ class InputArea extends React.Component {
       socket.on('disconnect',()=>{
         if(this.props.user || this.props.bearer){
           this.props.initSocket(SocketIOClient(getLocalHost(),{transports: ['websocket'], upgrade: false}));
+          socket.emit('join',{user},(error)=>console.log(error?error:'Joined successfully'));
         }
       });
      }
+     this.checkIfLocationAllowed();
   }
 
   scrollHandler(objDiv,callback,msg){
@@ -79,7 +81,6 @@ class InputArea extends React.Component {
   }
 
   sendLocation(socket){
-    this.setState({fieldValue:''});
     const sender = this.props.userInput.username;
     navigator.geolocation.getCurrentPosition(position=>socket.emit(
       'locationHandle',
@@ -95,7 +96,20 @@ class InputArea extends React.Component {
         }
         console.log('location shared');console.log();
       }
-    ));
+    ),(error)=>{
+      alert(error.message);
+    });
+  }
+
+  checkIfLocationAllowed(){
+    navigator.permissions.query({name:'geolocation'}).then(value=>{
+      if(value.state==='granted')
+      this.setState({locationPermissions:true});
+    else if(value.state==='denied')
+      this.setState({locationPermissions:false});
+    else if(value.state === 'prompt')
+      navigator.geolocation.getCurrentPosition(p=>this.setState({locationPermissions:true}),e=>this.setState({locationPermissions:false}));
+    }).catch(e=>this.setState({locationPermissions:false}));
   }
 
   sendMessage(message,socket){
@@ -115,7 +129,7 @@ class InputArea extends React.Component {
     var width = x.offsetWidth;
     setTimeout(()=>x.style.display = "flex"?x.style.display = "none":x.style.display = "flex", 650);;
   } */
-  detectMobile(){
+  /* detectMobile(){
     if (navigator.userAgent.match(/Android/i) 
                 || navigator.userAgent.match(/webOS/i) 
                 || navigator.userAgent.match(/iPhone/i)  
@@ -127,7 +141,7 @@ class InputArea extends React.Component {
             } else { 
                 return false; 
             } 
-  }
+  } */
   render(){
     const socket= this.props.socket;
     var msg='';
@@ -141,7 +155,7 @@ class InputArea extends React.Component {
             <img id="send-icon" src={send} alt="loc"></img>
         </div>
         {
-          !this.detectMobile()?<div  id="location-button" onClick={()=>this.sendLocation(socket)}>
+          this.state.locationPermissions?<div  id="location-button" onClick={()=>this.sendLocation(socket)}>
           <img id="location-icon" src={mapLocation} alt="loc"></img>
           </div>:undefined
         }
