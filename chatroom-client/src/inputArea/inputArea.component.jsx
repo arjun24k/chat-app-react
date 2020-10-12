@@ -53,10 +53,14 @@ class InputArea extends React.Component {
       socket.on('locationHandleReceive',(link)=>this.scrollHandler(objDiv,this.props.setMessage,link));
       socket.on('someoneLeft',(msg)=>this.scrollHandler(objDiv,this.props.setEntryMessage,msg));
       socket.on('disconnect',()=>{
-        if(this.props.user || this.props.bearer){
-          this.props.initSocket(SocketIOClient(getLocalHost(),{transports: ['websocket'], upgrade: false}));
-          socket.emit('join',{user},(error)=>console.log(error?error:'Joined successfully'));
-        }
+        
+          setTimeout(()=>{
+            if(this.props.user || this.props.bearer){
+               this.props.initSocket(SocketIOClient(getLocalHost(),{transports: ['websocket'], upgrade: false}));
+              socket.emit('join',{user},(error)=>console.log(error?error:'Joined successfully'));
+            }
+          },4000);
+        
       });
      }
      this.checkIfLocationAllowed();

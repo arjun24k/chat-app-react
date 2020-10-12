@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react';
 import './App.css';
-import JoinRoom from './joinRoom/joinRoom.component';
 import {
   Switch,
   Route,
@@ -11,6 +10,7 @@ import Spinner from './spinner/spinner.component';
 
 //ROUTING ISSUE
 const ChatRoom =  React.lazy(()=>import('./chatRoom/chatRoom.component'));
+const JoinRoom = React.lazy(()=>import('./joinRoom/joinRoom.component'));
 class App extends React.Component {
 
 
@@ -29,8 +29,8 @@ class App extends React.Component {
     return(
     <div id="chatUi">
       <Switch>
-        <Route exact path='/' component={JoinRoom}/>
         <Suspense fallback={<Spinner/>}>
+          <Route exact path='/' component={JoinRoom}/>
           <Route exact path='/room' component={ChatRoom}/>
         </Suspense>
       </Switch>

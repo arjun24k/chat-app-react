@@ -17,6 +17,14 @@
     top:40vh;
     right:37.5vw;
   }
+@media only screen and (min-width:900px){
+  .spinner {
+    width: 10vw;
+    height: 10vw;
+    top:45vh;
+    right:45vw;
+  }
+}
 
 
   

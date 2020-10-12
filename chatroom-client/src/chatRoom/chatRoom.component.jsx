@@ -39,13 +39,13 @@ class ChatRoom extends React.Component{
             ?user!==undefined
             ?<ErrorBoundary histroy={this.props.history}>
                 <Suspense fallback={<Spinner/>}>
-                <div id="message-io">
+                {!this.props.isLoading?<div id="message-io">
             <div>
             <SideBar history={this.props.history}/>
              </div>
                 <InputArea/>
                 <ChatArea/>
-            </div>
+            </div>:<Spinner/>}
             </Suspense>
             </ErrorBoundary>
             :<Spinner/>
